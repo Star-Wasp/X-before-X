@@ -120,7 +120,7 @@ class _PopUpBoxState extends State<PopUpBox> {
           actions: [
             TextButton(
               onPressed: submit,
-              child: Text('SUBMIT'),
+              child: Text('SAVE'),
             ),
           ],
         ),

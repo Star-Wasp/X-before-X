@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:x_before_x/customWidgets.dart';
+import 'package:x_before_x/pages/challangeList.dart';
+
+class ChallangeListPage extends StatefulWidget {
+  final String name;
+  final int age;
+  const ChallangeListPage({
+    super.key,
+    required this.name,
+    required this.age,
+  });
+
+  @override
+  State<ChallangeListPage> createState() => _ChallangeListPageState();
+}
+
+class _ChallangeListPageState extends State<ChallangeListPage> {
+  List<String> challangeListNames = [];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: widget.age == 0
+              ? Text('X before X')
+              : Text('${widget.age + 1} before ${widget.age + 1}'),
+        ),
+        body: ListView(
+          children: [
+            Text(
+                'Welcome ${widget.name[0].toUpperCase()}${widget.name.substring(1)}!'),
+            Text('Pick your Challange list:'),
+            for (String listName in challangeListNames)
+              NavigationButton(
+                text: listName,
+                page: ChallangePage(
+                    name: widget.name, age: widget.age, title: listName),
+              ),
+            PopUpBox(
+              title: 'New Challange List',
+              buttonText: Icon(Icons.add),
+              hintText: 'Name challange list',
+              onSubmit: (value) {
+                setState(() {
+                  challangeListNames.add(value);
+                });
+              },
+            )
+          ],
+        ));
+  }
+}

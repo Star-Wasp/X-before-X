@@ -179,3 +179,27 @@ class NavigationButton extends StatelessWidget {
     );
   }
 }
+
+class RoundButton extends StatelessWidget {
+  const RoundButton({
+    super.key,
+    required this.icon,
+    required this.page,
+  });
+
+  final Icon icon;
+  final Widget page;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: icon,
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+    );
+  }
+}

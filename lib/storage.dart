@@ -34,4 +34,14 @@ class DataStorage {
   static void saveChallangeData(Map data) {
     prefs?.setString('Challange Data', jsonEncode(data));
   }
+
+  static Map createNewChallangeList(String listName, int age) {
+    Map<String, List> challangeList = {
+      listName: [
+        for (int year = 0; year < age + 1; year++)
+          {'task $year': 'challange $year', 'isChecked': false}
+      ]
+    };
+    return challangeList;
+  }
 }

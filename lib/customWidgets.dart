@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class CheckBoxItem extends StatefulWidget {
   final String? text;
+  final bool isChecked;
   final Function(String) onTaskUpdated;
+  final Function(bool) onIsChecked;
   const CheckBoxItem({
     super.key,
     this.text = '...',
     required this.onTaskUpdated,
+    required this.onIsChecked,
+    required this.isChecked,
   });
 
   @override
@@ -14,8 +18,14 @@ class CheckBoxItem extends StatefulWidget {
 }
 
 class _CheckBoxItemState extends State<CheckBoxItem> {
-  bool isChecked = false;
+  late bool isChecked;
   String newTask = '';
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.isChecked;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +39,7 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
             onChanged: (bool? value) {
               setState(() {
                 isChecked = value!;
+                widget.onIsChecked(isChecked);
               });
             },
           ),
@@ -43,12 +54,6 @@ class _CheckBoxItemState extends State<CheckBoxItem> {
             });
             widget.onTaskUpdated(value);
           },
-        ),
-        TextButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.delete,
-          ),
         ),
       ],
     );

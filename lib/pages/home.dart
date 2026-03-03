@@ -31,6 +31,25 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  Text('Your name is: $userName.'),
+                  Text('Your are: $userAge.')
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Text(
+                    'If that\'s right click continue, if not, then feel free to change it!'),
+              ),
+              SizedBox(
                 height: 40,
               ),
               PopUpBox(
@@ -40,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                 onSubmit: (value) {
                   setState(() {
                     userName = value;
+                    DataStorage.saveName(value);
                   });
                 },
               ),
@@ -50,13 +70,17 @@ class _HomePageState extends State<HomePage> {
                 onSubmit: (value) {
                   setState(() {
                     userAge = int.parse(value);
+                    DataStorage.saveAge(
+                      int.parse(value),
+                    );
                   });
                 },
               ),
-              NavigationButton(
-                text: 'next',
-                page: ChallangeListPage(name: userName, age: userAge),
-              )
+              if (userName.isNotEmpty && userAge != 0)
+                NavigationButton(
+                  text: 'continue',
+                  page: ChallangeListPage(name: userName, age: userAge),
+                )
             ],
           ),
         ));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:x_before_x/customWidgets.dart';
 import 'package:x_before_x/pages/challangeList.dart';
 import 'package:x_before_x/pages/home.dart';
+import 'package:x_before_x/storage.dart';
 
 class ChallangeListPage extends StatefulWidget {
   final String name;
@@ -17,7 +18,20 @@ class ChallangeListPage extends StatefulWidget {
 }
 
 class _ChallangeListPageState extends State<ChallangeListPage> {
-  List<String> challangeListNames = [];
+  late List<String> challangeListNames;
+
+  @override
+  void initState() {
+    super.initState();
+    Map? data = DataStorage.getChallangeData();
+
+    if (data != null) {
+      challangeListNames = data.keys.cast<String>().toList();
+    } else {
+      challangeListNames = [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +59,12 @@ class _ChallangeListPageState extends State<ChallangeListPage> {
             onSubmit: (value) {
               setState(() {
                 challangeListNames.add(value);
+                Map newList =
+                    DataStorage.createNewChallangeList(value, widget.age);
+                var oldData = DataStorage.getChallangeData();
+                oldData ??= {};
+                oldData[value] = newList;
+                DataStorage.saveChallangeData(oldData);
               });
             },
           ),

@@ -52,7 +52,9 @@ class _ChallangePageState extends State<ChallangePage> {
       ),
       body: ListView(
         children: [
-          Text(widget.title ?? 'General'),
+          Center(
+            child: Text(widget.title ?? 'General'),
+          ),
           for (int i = 0; i < tasks.length; i++)
             CheckBoxItem(
               text: tasks[i],

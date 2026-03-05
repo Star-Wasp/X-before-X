@@ -39,34 +39,41 @@ class _ChallangeListPageState extends State<ChallangeListPage> {
         centerTitle: true,
         title: widget.age == 0
             ? Text('X before X')
-            : Text('${widget.age + 1} before ${widget.age + 1}'),
+            : Text('~ ${widget.age + 1} before ${widget.age + 1} ~'),
       ),
       body: ListView(
         children: [
-          Text(
-              'Welcome ${widget.name[0].toUpperCase()}${widget.name.substring(1)}!'),
-          Text('Pick your Challange list:'),
+          Center(
+            child: Text(
+                'Welcome ${widget.name[0].toUpperCase()}${widget.name.substring(1)}!'),
+          ),
+          Center(
+            child: Text('Pick your Challange list:'),
+          ),
           for (String listName in challangeListNames)
             NavigationButton(
               text: listName,
               page: ChallangePage(
                   name: widget.name, age: widget.age, title: listName),
             ),
-          PopUpBox(
-            title: 'New Challange List',
-            buttonText: Icon(Icons.add),
-            hintText: 'Name challange list',
-            onSubmit: (value) {
-              setState(() {
-                challangeListNames.add(value);
-                Map newList =
-                    DataStorage.createNewChallangeList(value, widget.age);
-                var oldData = DataStorage.getChallangeData();
-                oldData ??= {};
-                oldData[value] = newList;
-                DataStorage.saveChallangeData(oldData);
-              });
-            },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(100, 40, 100, 5),
+            child: PopUpBox(
+              title: 'New Challange List',
+              buttonText: Icon(Icons.add),
+              hintText: 'Name challange list',
+              onSubmit: (value) {
+                setState(() {
+                  challangeListNames.add(value);
+                  Map newList =
+                      DataStorage.createNewChallangeList(value, widget.age);
+                  var oldData = DataStorage.getChallangeData();
+                  oldData ??= {};
+                  oldData[value] = newList;
+                  DataStorage.saveChallangeData(oldData);
+                });
+              },
+            ),
           ),
           RoundButton(
             icon: Icon(Icons.home),

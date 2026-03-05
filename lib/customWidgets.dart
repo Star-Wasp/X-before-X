@@ -97,7 +97,7 @@ class _PopUpBoxState extends State<PopUpBox> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return TextButton(
       onPressed: () async {
         final name = await openDialog();
         if (name == null || name.isEmpty) return;
@@ -152,7 +152,7 @@ class NavigationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.fromLTRB(100, 5, 100, 5),
       child: Container(
         height: 40,
         width: 500,

@@ -29,11 +29,17 @@ class _ChallangePageState extends State<ChallangePage> {
 
     if (data != null && data[widget.title] != null) {
       allData = data;
-      var innerMap = data[widget.title] as Map;
-      var taskList = innerMap[widget.title] as List;
-      tasks = taskList.map((map) => map.values.toList()[0].toString()).toList();
-      isChecked =
-          taskList.map((map) => map.values.toList()[1] as bool).toList();
+      var taskMap = data[widget.title][widget.title] as Map;
+      tasks = [];
+      isChecked = [];
+
+      for (int i = 0; i <= widget.age; i++) {
+        var task = taskMap['task$i'];
+        if (task != null) {
+          tasks.add(task['task'].toString());
+          isChecked.add(task['isChecked'] as bool);
+        }
+      }
     } else {
       tasks =
           List.generate(widget.age + 1, (index) => 'challange ${index + 1}');
@@ -60,18 +66,18 @@ class _ChallangePageState extends State<ChallangePage> {
           ),
           for (int i = 0; i < tasks.length; i++)
             CheckBoxItem(
+              key: ValueKey('task_$i'),
               text: tasks[i],
               isChecked: isChecked[i],
               onIsChecked: (newState) {
                 setState(() {
                   isChecked[i] = newState;
-                  List newTasks = [];
+                  Map newTasks = {};
                   for (int j = 0; j < tasks.length; j++) {
-                    Map tempMap = {
-                      'task$j': tasks[j],
+                    newTasks['task$j'] = {
+                      'task': tasks[j],
                       'isChecked': isChecked[j]
                     };
-                    newTasks.add(tempMap);
                   }
                   allData[widget.title][widget.title] = newTasks;
                   DataStorage.saveChallangeData(allData);
@@ -81,13 +87,12 @@ class _ChallangePageState extends State<ChallangePage> {
                 setState(
                   () {
                     tasks[i] = newValue;
-                    List newTasks = [];
+                    Map newTasks = {};
                     for (int i = 0; i < tasks.length; i++) {
-                      Map tempMap = {
-                        'task$i': tasks[i],
+                      newTasks['task$i'] = {
+                        'task': tasks[i],
                         'isChecked': isChecked[i]
                       };
-                      newTasks.add(tempMap);
                     }
                     allData[widget.title][widget.title] = newTasks;
                     DataStorage.saveChallangeData(allData);

@@ -146,8 +146,10 @@ class _PopUpBoxState extends State<PopUpBox> {
       );
 
   void submit() {
-    Navigator.of(context).pop(controller.text);
-    controller.clear();
+    try {
+      Navigator.of(context).pop(controller.text);
+      controller.clear();
+    } catch (e) {}
   }
 }
 
